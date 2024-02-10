@@ -10,12 +10,6 @@ public class Demo : MonoBehaviour
 
     private IDataSerializer serializer;
 
-    // Deconstructed Recipe
-    private string author;
-    private string title;
-    private string[] ingredients;
-    private string howTo;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -24,14 +18,21 @@ public class Demo : MonoBehaviour
 
     public void OnSaveData()
     {
-        Recipe recipe = new Recipe("Markus");
-        serializer.SaveData($"/{title}.json", recipe);
+        Recipe newRecipe = new Recipe(this.name);
+        serializer.SaveData("/new-recipe.json", newRecipe);
     }
 
     public void OnLoadData()
     {
-        Recipe recipe = serializer.LoadData<Recipe>($"/{title}.json");
-        recipe.Deconstruct(out author, out title, out ingredients, out howTo);
+        Recipe loadedRecipe = new Recipe(this.name);
+        loadedRecipe = serializer.LoadData<Recipe>("/new-recipe.json");
+
+        DisplayRecipe(loadedRecipe);
+    }
+
+    private void DisplayRecipe(Recipe recipeToDisplay)
+    {
+        (string author, string title, string[] ingredients, string howTo) = recipeToDisplay;
         textToDisplay.text = ($"{title} Created by {author}. It contains: {ingredients[0]} and {ingredients[1]}. This is how you cook it: {howTo}");
     }
 }

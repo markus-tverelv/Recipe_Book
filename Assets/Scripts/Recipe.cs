@@ -1,9 +1,9 @@
 public class Recipe
 {
-    private string author;
-    private string title;
-    private string[] ingredients;
-    private string howTo;
+    public string author;
+    public string title;
+    public string[] ingredients;
+    public string howTo;
 
     public Recipe(string author)
     {
